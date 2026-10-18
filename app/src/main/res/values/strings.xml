@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Split Keyboard</string>
+    <string name="ime_name">Split Keyboard (Tablet)</string>
+    <string name="ime_settings">Split Keyboard Settings</string>
+    <string name="setup_title">Floating Split Touch Keyboard</string>
+    <string name="setup_subtitle">Ergonomic dual-thumb typing with touch-through tablet center</string>
+</resources>
