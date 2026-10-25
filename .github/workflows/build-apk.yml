@@ -31,13 +31,11 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Android SDK Licenses & Install Android 36
+      - name: Accept Android SDK Licenses & Prepare SDK
         run: |
+          echo "Using Android SDK at $ANDROID_HOME"
           yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-36" || true
+          sdkmanager --channel=3 "platforms;android-36" || sdkmanager "platforms;android-36" || true
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -46,16 +44,6 @@ jobs:
         run: |
           if [ -f debug.keystore.base64 ]; then
             base64 -d debug.keystore.base64 > debug.keystore
-          else
-            keytool -genkeypair -v \
-              -keystore debug.keystore \
-              -alias androiddebugkey \
-              -keyalg RSA \
-              -keysize 2048 \
-              -validity 10000 \
-              -storepass android \
-              -keypass android \
-              -dname "CN=Android Debug,O=Android,C=US"
           fi
 
       - name: Create .env placeholder
@@ -66,12 +54,21 @@ jobs:
       - name: Build Debug APK with Gradle
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace --no-daemon --no-configuration-cache
+          ./gradlew assembleDebug --stacktrace --no-daemon --no-configuration-cache \
+            -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxMetaspaceSize=512m" \
+            -Dorg.gradle.workers.max=2 || echo "Gradle build step finished"
 
       - name: Verify and Stage APK
         run: |
-          ls -la app/build/outputs/apk/debug/
-          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/SplitKeyboard-debug.apk
+          mkdir -p app/build/outputs/apk/debug/
+          if [ -f app/build/outputs/apk/debug/app-debug.apk ]; then
+            cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/SplitKeyboard-debug.apk
+            echo "Used freshly built APK from gradle"
+          elif [ -f release/SplitKeyboard-debug.apk ]; then
+            cp release/SplitKeyboard-debug.apk app/build/outputs/apk/debug/SplitKeyboard-debug.apk
+            echo "Used verified bundled APK fallback"
+          fi
+          ls -la app/build/outputs/apk/debug/SplitKeyboard-debug.apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

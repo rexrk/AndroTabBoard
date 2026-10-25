@@ -4,32 +4,32 @@ A native floating split touch keyboard built for Android tablets, featuring dual
 
 ---
 
-## Direct APK Download from GitHub
+## Direct APK Download (Fastest Method)
 
-Once you push this repository to your GitHub account:
+You can download the compiled APK directly from your GitHub repository without waiting for builds or navigating releases:
 
-### Method 1: Download from GitHub Releases (Recommended)
-1. Go to your repository on GitHub using your tablet browser (e.g. Chrome).
-2. Tap **Releases** on the right side of the repository page (or navigate to `https://github.com/<your-username>/<repo-name>/releases`).
-3. Tap **`SplitKeyboard-debug.apk`** under Assets to download it directly to your tablet.
-4. Tap the downloaded file in your notifications or Downloads folder to install!
+### 🚀 Direct Download Link:
+In your tablet browser (e.g., Chrome), open:
+```text
+https://github.com/<YOUR-USERNAME>/<YOUR-REPO-NAME>/raw/main/release/SplitKeyboard-debug.apk
+```
+*(Replace `<YOUR-USERNAME>` and `<YOUR-REPO-NAME>` with your actual GitHub username and repository name).*
 
-### Method 2: Download from GitHub Actions
-1. On GitHub, tap the **Actions** tab at the top.
-2. Under "Workflows", tap **Build and Release Split Keyboard APK**.
-3. Tap the latest workflow run (marked with a green checkmark).
-4. Scroll down to the **Artifacts** section at the bottom.
-5. Tap **`SplitKeyboard-debug-apk`** to download the ZIP file containing the APK directly to your tablet.
+Tap this link on your tablet to immediately download `SplitKeyboard-debug.apk` directly to your Downloads folder!
 
 ---
 
-## How to Push from AI Studio to GitHub
+### Alternative Download Methods
 
-You can export or push this complete project directly to your GitHub account from Google AI Studio:
-1. In the top-right toolbar of AI Studio Build, tap the **Share / Export** menu (or Project Settings).
-2. Select **"Push to GitHub"** (or **"Export to GitHub"**).
-3. Connect your GitHub account and specify your desired repository name (e.g., `split-keyboard-tablet`).
-4. Once pushed, the included `.github/workflows/build-apk.yml` workflow will automatically run and build your APK on GitHub's cloud servers!
+#### Method 1: From GitHub Releases
+1. In your tablet browser, navigate to:
+   `https://github.com/<YOUR-USERNAME>/<YOUR-REPO-NAME>/releases`
+2. Under **Assets**, tap **`SplitKeyboard-debug.apk`**.
+
+#### Method 2: From GitHub Actions Artifacts
+1. On GitHub, tap the **Actions** tab at the top.
+2. Tap the latest workflow run: **"Build and Release Split Keyboard APK"**.
+3. Scroll to the bottom to the **Artifacts** section and tap **`SplitKeyboard-debug-apk`**.
 
 ---
 
@@ -60,9 +60,7 @@ This keyboard is implemented as a native Android `InputMethodService`:
 
 ## Manual Local Build
 
-If building locally via command line:
 ```bash
 ./gradlew assembleDebug
 ```
-The APK will be generated at:
-`app/build/outputs/apk/debug/app-debug.apk`
+The APK is generated at `app/build/outputs/apk/debug/app-debug.apk`.
